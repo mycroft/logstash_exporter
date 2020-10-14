@@ -1,9 +1,17 @@
 sudo: false
-
 language: go
-
 go:
 - 1.13.x
-
 script:
-  - make
+- make
+before_deploy:
+- tar cvzf logstash_exporter-${TRAVIS_TAG#?}-linux-amd64.tar.gz logstash_exporter
+deploy:
+  provider: releases
+  api_key:
+    secure: OryXywp9/nKbb9XOoPo/Gy0PglysSyTlaschrB4vwHFOP7DLcXuonL4SmUTzp8ixH3U73hz//lKtGpwvgYpxDAgQhTcqTeTOSZiX7yEXOau/VvPhCsPyEfInQcm5g7SPR5HRhCHvWsd8rWUMXFp5rShCGMQvVD9IhyR9oQtW0iFSHQ42CC99lHcgnsbdYbJDivR043aQhW54YT8trM5z8AlXOP+YXOCDGdTpPIK+KVo/sEk/1kfanz8pwISncLt+UzXNbh7e8IUJhTHfmf1UzrvdJ3DTP/OOHBqpd6dyjPxQ26GYYuZS7zxDoJG0boTUiYwmXnMW+OEzLzC56S/Ad1gowTVX44oVfFsswfxqTwTKwmVWS5zolN8JI6pVp3vUvI5wmXe97TlQ+aPLhH0MXC9Nuzgm3aYmeLhgN8uDO46MshF8qfq0wJVxoZESg9iJFx+0Rd8Pfw1uyWezPWFP3eV0nrAMoL2v8Ek1GxtV4jC3HgM+D/NMu7GrgEx1J0+s8g2udiqxC1zsyy94iQ0CS+j0BA8ble108Ir299V5Gh2ujXs4u6kTGQ+6pllnTpBZoxz3yUeoLw7F/Obu4XPrjp7GfHBmaCLejEyP+Yn1R+NV01lRzaRfcZs8Q9vgnz9B4o+PlCeOFe1UN5XT5wzqy3weePTDLgiwA36FSJy5ipk=
+  file: logstash_exporter-${TRAVIS_TAG#?}-linux-amd64.tar.gz
+  on:
+    repo: mycroft/logstash_exporter
+    tags: true
+  skip_cleanup: true
